@@ -7,9 +7,6 @@ setInterval(() => {
   plusSlides(1); // Przesuwa się do następnego slajdu
 }, 3000); // 3000 milisekundy = 3 sekundy
 
-// ... (reszta kodu bez zmian)
-
-
 // Next/previous controls
 function plusSlides(n) {
   showSlides(slideIndex += n);
