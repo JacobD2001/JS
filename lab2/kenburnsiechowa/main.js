@@ -2,6 +2,16 @@
 const pauseButton = document.getElementById('pauseButton'); //shift + alt + down arrow for ctrl + d
 const resumeButton = document.getElementById('resumeButton');
 
+// Open the Modal
+function openModal() {
+    document.getElementById("myModal").style.display = "block";
+
+  }
+  
+  // Close the Modal
+  function closeModal() {
+    document.getElementById("myModal").style.display = "none";
+  }
 
 
 let slideIndex = 1; //declare variable which follows current slide
@@ -16,6 +26,12 @@ sliderInterval = setInterval(() => {
 pauseButton.addEventListener('click', () => {
     clearInterval(sliderInterval);
 });
+
+// Stop the automatic sliding
+function pauseSlider() {
+    clearInterval(sliderInterval); 
+}
+
 
 //set the interval for 3 s
 resumeButton.addEventListener('click', () => {
