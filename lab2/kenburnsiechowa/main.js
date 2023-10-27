@@ -3,7 +3,7 @@ const pauseButton = document.getElementById('pauseButton'); //shift + alt + down
 const resumeButton = document.getElementById('resumeButton');
 
 // Open the Modal
-function openModal() {
+function openModal(src) {
     document.getElementById("myModal").style.display = "block";
 
   }
