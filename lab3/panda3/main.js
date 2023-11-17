@@ -26,6 +26,7 @@ const playMelodyBtn = document.getElementById('playMelodyBtn')
 playMelodyBtn.addEventListener('click', playMelody)
 
 function playMelody() {
+    //repeat the function with set interval until array is 0 - setinterval
     const playMelodyInterval = setInterval(() => {
         //if array empty than clear interval
         if (melodyKeys.length === 0) {
