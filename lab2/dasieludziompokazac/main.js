@@ -1,7 +1,9 @@
 
 const pauseButton = document.getElementById('pauseButton'); //shift + alt + down arrow for ctrl + d
 const resumeButton = document.getElementById('resumeButton');
-
+const prevButton = document.getElementById('prevButton');
+const nextButton = document.getElementById('nextButton');
+const dots = document.querySelectorAll('.dot');
 
 
 let slideIndex = 1; //declare variable which follows current slide
@@ -9,7 +11,7 @@ showSlides(slideIndex); //show slide with current slide
 
 // set time interval for 3s
 sliderInterval = setInterval(() => {
-    plusSlides(1); // go to next slide +1
+    showSlides(slideIndex +=1); // go to next slide +1
 }, 3000);
 
 //pause the interval
@@ -20,16 +22,32 @@ pauseButton.addEventListener('click', () => {
 //set the interval for 3 s
 resumeButton.addEventListener('click', () => {
     sliderInterval = setInterval(() => {
-        plusSlides(1);
+        showSlides(slideIndex +=1);
     }, 3000);
 });
 
-// Next/previous controls
+// Next/previous events clicked
+prevButton.addEventListener('click', () => {
+    showSlides(slideIndex -= 1);
+});
+
+nextButton.addEventListener('click', () => {
+    showSlides(slideIndex += 1);
+});
+
+/* //function for going to next/previous slide
 function plusSlides(n) {
     showSlides(slideIndex += n);
-}
+} */ 
+//shift + alt + a for commenting
 
 // Go to selected slide(dots)
+dots.forEach(dot => {
+    dot.addEventListener('click', function () {
+        currentSlide(parseInt(this.getAttribute('data-slide-index')));
+    });
+});
+
 function currentSlide(n) {
     showSlides(slideIndex = n);
 }
@@ -54,4 +72,3 @@ function showSlides(n) {
     //make dot for chosen slide visible
     dots[slideIndex - 1].className += " active";
 }
-
