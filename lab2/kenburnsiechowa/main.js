@@ -1,4 +1,4 @@
-
+//TO DO: implement lightbox effect
 const pauseButton = document.getElementById('pauseButton'); //shift + alt + down arrow for ctrl + d
 const resumeButton = document.getElementById('resumeButton');
 const prevButton = document.getElementById('prevButton');
@@ -35,10 +35,7 @@ nextButton.addEventListener('click', () => {
     showSlides(slideIndex += 1);
 });
 
-/* //function for going to next/previous slide
-function plusSlides(n) {
-    showSlides(slideIndex += n);
-} */ 
+
 //shift + alt + a for commenting
 
 // Go to selected slide(dots)
