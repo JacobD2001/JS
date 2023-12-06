@@ -12,3 +12,5 @@
 
  ##Pytania:
  - 1. Sprawdzić lab 7 czy o to chodziło?
+ - 2. Lightbox lab 2 kenburn
+ 
