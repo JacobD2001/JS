@@ -1,47 +1,3 @@
-// document.addEventListener('keypress', onKeyPress)
-
-// const melodyKeys = []
-
-// const KeyToSound = {
-//     'a': document.querySelector('#s1'),
-//     's': document.querySelector('#s2'),
-//     'd': document.querySelector('#s3'),
-//     'f': document.querySelector('#s4')
-// }
-
-// function onKeyPress(event) {
-//     //we are trying to access value that is under key 'a' for example
-//     const sound = KeyToSound[event.key] // if pressed a than event.key = a
-//     playSound(sound)
-//     melodyKeys.push(event.key)
-// }
-// function playSound(sound) {
-//     sound.currentTime = 0
-//     sound.play()
-// }
-// //PLAYING MELODY
-
-// const playMelodyBtn = document.getElementById('playMelodyBtn')
-// // 
-// playMelodyBtn.addEventListener('click', playMelody)
-
-// function playMelody() {
-//     //repeat the function with set interval until array is 0 - setinterval
-//     const playMelodyInterval = setInterval(() => {
-//         //if array empty than clear interval
-//         if (melodyKeys.length === 0) {
-//             clearInterval(playMelodyInterval);
-//         } else {
-//             //get first key from array
-//             const key = melodyKeys.shift();
-//             const sound = KeyToSound[key];
-//             if (sound) {
-//                 playSound(sound);
-//             }
-//         }
-//     }, 300); //set interval to 300ms
-// }
-
 //adding event listener when key is pressed trigger onkeypress function
 document.addEventListener('keypress', onKeyPress)
 
@@ -53,6 +9,11 @@ const melodyKeysChannel4 = [];
 
 // Default channel is 1
 let currentChannel = 1; 
+
+//get the first channel button and add active-channel class to it
+const currentChannelBtn = document.getElementById(`channel1Btn`); 
+currentChannelBtn.classList.add('active-channel');
+
 
 //map keys to sounds
 const KeyToSound = {
@@ -100,28 +61,44 @@ function getMelodyKeysArrayByChannel(channel) {
     }
 }
 
-//get the playmelody btn and trigger playMelody function when clicked
-document.getElementById('playMelodyBtn').addEventListener('click', playMelody);
-
 //get the channels buttons and trigger changeChannel function when clicked
 document.getElementById('channel1Btn').addEventListener('click', () => changeChannel(1));
 document.getElementById('channel2Btn').addEventListener('click', () => changeChannel(2));
 document.getElementById('channel3Btn').addEventListener('click', () => changeChannel(3));
 document.getElementById('channel4Btn').addEventListener('click', () => changeChannel(4));
 
-//change channel function
+//get the play channels buttons and trigger playmelodybychannel function when clicked
+document.getElementById('playChannel1Btn').addEventListener('click', () => playMelody(1));
+document.getElementById('playChannel2Btn').addEventListener('click', () => playMelody(2));
+document.getElementById('playChannel3Btn').addEventListener('click', () => playMelody(3));
+document.getElementById('playChannel4Btn').addEventListener('click', () => playMelody(4));
+
+//get play all channels button and trigger playAllChannels function when clicked
+document.getElementById('playAllChannelsBtn').addEventListener('click', playAllChannels);
+
+//change channel function with css
 function changeChannel(channel) {
-    currentChannel = channel;
+    currentChannel = channel; //sets current cahnnel to new cahnnel
+
+    //loop through all channels(4)
+    for (let i = 1; i <= 4; i++) {
+        const channelBtn = document.getElementById(`channel${i}Btn`); //get the button corresponding to the (i) channel
+        channelBtn.classList.remove('active-channel'); //remove the active-channel class from all channel buttons
+
+    }
+
+    const currentChannelBtn = document.getElementById(`channel${channel}Btn`);
+    currentChannelBtn.classList.add('active-channel');
 }
 
-//play melody function
-function playMelody() {
-    const melodyKeys = getMelodyKeysArrayByChannel(currentChannel); //returns array of keys for current channel and store it in melodyKeys
+//play melody by channel function
+function playMelody(channel) {
+    const melodyKeys = getMelodyKeysArrayByChannel(channel);
     const playMelodyInterval = setInterval(() => {
         if (melodyKeys.length === 0) {
             clearInterval(playMelodyInterval);
         } else {
-            const key = melodyKeys.shift(); //remove the first key from the array and store it in key
+            const key = melodyKeys.shift();
             const sound = KeyToSound[key];
             if (sound) {
                 playSound(sound);
@@ -129,3 +106,12 @@ function playMelody() {
         }
     }, 300);
 }
+
+//play all channels function
+function playAllChannels() {
+    playMelody(1);
+    playMelody(2);
+    playMelody(3);
+    playMelody(4);
+}
+
