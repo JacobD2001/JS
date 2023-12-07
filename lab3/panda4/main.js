@@ -148,3 +148,55 @@ function getSelectedChannels() {
     return selectedChannels;
 }
 
+//METRONOME IMPLEMENTATION
+
+let metronomeIsOn = false;
+let beatsPerMinute = 120;
+let metronomeInterval;
+
+//get metronome button and trigger startMetronome/stopmetronom function when clicked
+document.getElementById('toggleMetronomeBtn').addEventListener('click', () => {
+    metronomeIsOn = !metronomeIsOn;
+
+    if (metronomeIsOn) {
+        startMetronome();
+    } else {
+        stopMetronome();
+    }
+});
+
+//function to start metronome
+function startMetronome() {
+    metronomeIsOn = true;
+    metronomeInterval = setInterval(() => {
+        playMetronomeClick();
+    }, 60000 / beatsPerMinute);
+}
+
+//function to stop metronome
+function stopMetronome() {
+    metronomeIsOn = false;
+    clearInterval(metronomeInterval);
+}
+
+//play metronome click function
+function playMetronomeClick() {
+    const sound = document.querySelector('#metronomeClick');
+    sound.currentTime = 0;
+    sound.play();
+}
+
+//get the slider and trigger changeBPM function when input is changed(bpm value is changed)
+document.getElementById('bpmSlider').addEventListener('input', (event) => { //get the slider and trigger changeBPM function when input
+    changeBPM(event.target.value);
+});
+
+//function to change bpm
+function changeBPM(bpm) {
+    beatsPerMinute = bpm;
+    document.getElementById('bpmValue').innerHTML = bpm;
+    if (metronomeIsOn) { //if its on stop and start(restart metronome)
+        stopMetronome();
+        startMetronome();
+    }
+}
