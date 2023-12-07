@@ -87,27 +87,38 @@ playChannelsContainer.addEventListener('click', (event) => {
 document.getElementById('playAllChannelsBtn').addEventListener('click', playAllChannels);
 
 //play melody by channel function
-function playMelody(channel) {
+// Modified playMelody function to support looping
+function playMelody(channel, maxChannelLength, totalRepetitions) {
     const melodyKeys = getMelodyKeysArrayByChannel(channel);
-    const playMelodyInterval = setInterval(() => {
-        if (melodyKeys.length === 0) {
-            clearInterval(playMelodyInterval);
+    let repetitionCount = 0;
+
+    const playNote = () => {
+        const key = melodyKeys.shift();
+        const sound = KeyToSound[key];
+        if (sound) {
+            playSound(sound);
+        }
+
+        if (melodyKeys.length > 0) {
+            setTimeout(playNote, 300); // Adjust the interval as needed
         } else {
-            const key = melodyKeys.shift();
-            const sound = KeyToSound[key];
-            if (sound) {
-                playSound(sound);
+            repetitionCount++;
+
+            if (repetitionCount >= totalRepetitions) {
+                // Check if this is the last repetition
+                clearInterval(loopInterval); // Stop the loop after reaching the desired repetitions
             }
         }
-    }, 300);
+    };
+
+    playNote(); // Start the first note
 }
 
 // play all channels function
-function playAllChannels() {
-    const totalChannels = channelsContainer.children.length; // get the total number of channels
-
-    for (let i = 1; i <= totalChannels; i++) {
-        playMelody(i);
+// Modified playAllChannels function to ensure looping
+function playAllChannels(maxChannelLength, totalRepetitions) { // Add totalRepetitions as a parameter
+    for (let i = 1; i <= channelsContainer.children.length; i++) {
+        playMelody(i, maxChannelLength, totalRepetitions); // Pass totalRepetitions to playMelody
     }
 }
 
@@ -295,3 +306,43 @@ function changeChannel(channel) {
     currentChannelBtn.classList.add('active-channel');
     console.log(`SWITCHED CHANNELS TO ${channel}`);
 }
+
+
+//for looping implementation
+
+document.getElementById('loopAllChannelsBtn').addEventListener('click', loopEntireSong);
+
+// Function to loop the entire song
+function loopEntireSong() {
+    const maxChannelLength = getMaxChannelLength(); // Step 2
+     console.log(`MAX CHANNEL LENGTH IS ${maxChannelLength}`);
+    // Loop until the desired number of repetitions (adjust as needed)
+    const totalRepetitions = 1000; 
+    let currentRepetition = 0;
+
+    // Use setInterval for repeating the loop
+    const loopInterval = setInterval(() => {
+        playAllChannels(maxChannelLength, totalRepetitions); // Pass totalRepetitions to playAllChannels
+console.log(`CURRENT REPETITION IS ${currentRepetition}`);
+        currentRepetition++;
+        if (currentRepetition >= totalRepetitions) {
+            clearInterval(loopInterval); // Stop the loop after reaching the desired repetitions
+        }
+    }, maxChannelLength * 1000); 
+}
+
+// Function to get the maximum length among all channels
+function getMaxChannelLength() {
+    let maxChannelLength = 0;
+
+    for (let i = 1; i <= channelsContainer.children.length; i++) {
+        const channelLength = getMelodyKeysArrayByChannel(i).length;
+        if (channelLength > maxChannelLength) {
+            maxChannelLength = channelLength;
+        }
+    }
+
+    return maxChannelLength;
+}
+
+//seems to work but the sounds dont have time to play ig?
