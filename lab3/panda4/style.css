@@ -1,0 +1,19 @@
+/* Add this to your existing CSS or create a new CSS file */
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+button {
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+
+/* Highlight the active channel button */
+.active-channel {
+    background-color: #e74c3c; /* Red color, you can change it to your desired color */
+    color: #fff;
+}
