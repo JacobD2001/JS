@@ -2,7 +2,7 @@
  ## TO DO:
  - lab 1: ✔️
  - lab 2: kenburn - implement lightbox
- - lab 3: ✔️
+ - lab 3: panda 5 - looping seems not to work properly
  - lab 4: Do evrth
  - lab 5: ✔️
  - lab 6: Do evrth
