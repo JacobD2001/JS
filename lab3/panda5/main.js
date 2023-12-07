@@ -87,38 +87,27 @@ playChannelsContainer.addEventListener('click', (event) => {
 document.getElementById('playAllChannelsBtn').addEventListener('click', playAllChannels);
 
 //play melody by channel function
-// Modified playMelody function to support looping
-function playMelody(channel, maxChannelLength, totalRepetitions) {
+function playMelody(channel) {
     const melodyKeys = getMelodyKeysArrayByChannel(channel);
-    let repetitionCount = 0;
-
-    const playNote = () => {
-        const key = melodyKeys.shift();
-        const sound = KeyToSound[key];
-        if (sound) {
-            playSound(sound);
-        }
-
-        if (melodyKeys.length > 0) {
-            setTimeout(playNote, 300); // Adjust the interval as needed
+    const playMelodyInterval = setInterval(() => {
+        if (melodyKeys.length === 0) {
+            clearInterval(playMelodyInterval);
         } else {
-            repetitionCount++;
-
-            if (repetitionCount >= totalRepetitions) {
-                // Check if this is the last repetition
-                clearInterval(loopInterval); // Stop the loop after reaching the desired repetitions
+            const key = melodyKeys.shift();
+            const sound = KeyToSound[key];
+            if (sound) {
+                playSound(sound);
             }
         }
-    };
-
-    playNote(); // Start the first note
+    }, 300);
 }
 
-// play all channels function
-// Modified playAllChannels function to ensure looping
-function playAllChannels(maxChannelLength, totalRepetitions) { // Add totalRepetitions as a parameter
-    for (let i = 1; i <= channelsContainer.children.length; i++) {
-        playMelody(i, maxChannelLength, totalRepetitions); // Pass totalRepetitions to playMelody
+//play all channels function
+function playAllChannels() {
+    const totalChannels = channelsContainer.children.length; // get the total number of channels
+
+    for (let i = 1; i <= totalChannels; i++) {
+        playMelody(i);
     }
 }
 
@@ -211,8 +200,6 @@ function changeBPM(bpm) {
 }
 
 //PANDA 5 IMPLEMENTATION
-//const channelsContainer = document.getElementById('channels');
-//const playChannelsContainer = document.getElementById('playChannels');
 const checkboxContainer = document.getElementById('checkboxes');
 
 //get the add/remove channel button and trigger addChannel/removeChannel function when clicked
@@ -307,42 +294,22 @@ function changeChannel(channel) {
     console.log(`SWITCHED CHANNELS TO ${channel}`);
 }
 
+//LOOPING SONG
 
-//for looping implementation
+document.getElementById('loopAllChannelsBtn').addEventListener('click', loopSong);
+document.getElementById('stopLoopingAllChannelsBtn').addEventListener('click', () => {
+    console.log("STOPPED LOOPING");
+    clearInterval(loopIntervalId);
+});
 
-document.getElementById('loopAllChannelsBtn').addEventListener('click', loopEntireSong);
+//function to loop all channels
+function loopSong() {
+    const loopInterval = 300; // Adjust the interval as needed
 
-// Function to loop the entire song
-function loopEntireSong() {
-    const maxChannelLength = getMaxChannelLength(); // Step 2
-     console.log(`MAX CHANNEL LENGTH IS ${maxChannelLength}`);
-    // Loop until the desired number of repetitions (adjust as needed)
-    const totalRepetitions = 1000; 
-    let currentRepetition = 0;
-
-    // Use setInterval for repeating the loop
-    const loopInterval = setInterval(() => {
-        playAllChannels(maxChannelLength, totalRepetitions); // Pass totalRepetitions to playAllChannels
-console.log(`CURRENT REPETITION IS ${currentRepetition}`);
-        currentRepetition++;
-        if (currentRepetition >= totalRepetitions) {
-            clearInterval(loopInterval); // Stop the loop after reaching the desired repetitions
-        }
-    }, maxChannelLength * 1000); 
+    loopIntervalId = setInterval(() => {
+        console.log("LOOPING");
+        playAllChannels();
+    }, loopInterval);
 }
 
-// Function to get the maximum length among all channels
-function getMaxChannelLength() {
-    let maxChannelLength = 0;
-
-    for (let i = 1; i <= channelsContainer.children.length; i++) {
-        const channelLength = getMelodyKeysArrayByChannel(i).length;
-        if (channelLength > maxChannelLength) {
-            maxChannelLength = channelLength;
-        }
-    }
-
-    return maxChannelLength;
-}
-
-//seems to work but the sounds dont have time to play ig?
+//TO DO: looping voice canno't be heard(maybe because of the interval)
