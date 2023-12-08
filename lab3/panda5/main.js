@@ -88,13 +88,16 @@ document.getElementById('playAllChannelsBtn').addEventListener('click', playAllC
 
 //play melody by channel function
 function playMelody(channel) {
-    const melodyKeys = getMelodyKeysArrayByChannel(channel);
+    const melodyKeys = [...getMelodyKeysArrayByChannel(channel)];
     const playMelodyInterval = setInterval(() => {
+       console.log(`channel print,`, melodyKeys)
         if (melodyKeys.length === 0) {
+            console.log(`interval cleared`)
             clearInterval(playMelodyInterval);
         } else {
             const key = melodyKeys.shift();
             const sound = KeyToSound[key];
+            console.log(key, sound)
             if (sound) {
                 playSound(sound);
             }
@@ -304,7 +307,7 @@ document.getElementById('stopLoopingAllChannelsBtn').addEventListener('click', (
 
 //function to loop all channels
 function loopSong() {
-    const loopInterval = 300; // Adjust the interval as needed
+    const loopInterval = 2000; 
 
     loopIntervalId = setInterval(() => {
         console.log("LOOPING");
