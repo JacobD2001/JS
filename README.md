@@ -1,7 +1,7 @@
  # Repository for lab classes to learn JS  
  ## TO DO:
  - lab 1: ✔️
- - lab 2: kenburn - implement lightbox
+ - lab 2: ✔️
  - lab 3: panda5 - looping voices to fix
  - lab 4: Do evrth
  - lab 5: ✔️
