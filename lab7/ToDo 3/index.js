@@ -1,6 +1,8 @@
 //TO DO3: third-party library
 
-interval(saveCToSessionStorage) //passes saveCToSessionStorage to interval
+interval(saveCToSessionStorage)
+interval(discoverPowerBallNumber)
+//passes saveCToSessionStorage to interval
 //sets up a timer that increments every 2 seconds(each time calling 2 functions)
 //setInterval says execute interval every 2 seconds
 //inside setInterval there is an anonymous function(without a name) that calls callback function
@@ -9,7 +11,7 @@ function interval(callback) {
   setInterval(
     () => {
       callback(timer)
-      discoverPowerBallNumber(timer)
+      //callback(timer)
       timer++
     }
     , 2000)
