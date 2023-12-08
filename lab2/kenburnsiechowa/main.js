@@ -69,3 +69,23 @@ function showSlides(n) {
     //make dot for chosen slide visible
     dots[slideIndex - 1].className += " active";
 }
+
+//lightbox effect
+const images = document.querySelectorAll('.mySlides img');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-image');
+
+//function for opening lightbox
+images.forEach(image => {
+    image.addEventListener('click', () => {
+        lightboxImg.src = image.src; 
+        lightbox.style.display = 'block';
+    });
+});
+
+//function for closing lightbox
+const lightboxClose = document.getElementById('lightbox-close');
+
+lightboxClose.addEventListener('click', () => {
+    lightbox.style.display = 'none';
+});
