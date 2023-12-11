@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+input {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+button {
+    padding: 8px;
+    cursor: pointer;
+}
+
+#weatherInfo {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #520a0a;
+}
+
+#weatherList {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; 
+}
+    
+
+
+.weatherCard {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.weatherCard p {
+    margin: 5px 0;
+}
+
+.weatherCard img {
+    max-width: 50px;
+    max-height: 50px;
+}

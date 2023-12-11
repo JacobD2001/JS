@@ -7,7 +7,7 @@
  - lab 5: ✔️
  - lab 6: Do evrth
  - lab 7: ✔️
- - lab 8: Do evrth
+ - lab 8: Karpik, Last Christmas
 
 
 
