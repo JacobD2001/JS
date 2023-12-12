@@ -5,6 +5,7 @@
 
 //getting elements from html
 document.getElementById("addNote").addEventListener("click", addNewNote);
+document.getElementById('searchBtn').addEventListener('click', searchNotes);
 
 //note constructor function
 function Note(id, title, content, color, isPinned, tags, dateOfCreation, dateOfLastModification) {
@@ -157,4 +158,48 @@ function saveChanges(id) {
         // Refresh note display
         displayNotes();
     }
+}
+
+//function for searching notes
+function searchNotes() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase(); //get search input and convert it to lowercase
+    const notes = GetStoredNotes(); //get notes from local storage
+
+    // Filter notes based on search input
+    const filteredNotes = notes.filter(note => {
+        const title = note.title.toLowerCase();
+        const content = note.content.toLowerCase();
+        const tags = note.tags.toLowerCase();
+
+        return title.includes(searchInput) || content.includes(searchInput) || tags.includes(searchInput);
+    });
+    console.log(`Filtered notes`, filteredNotes);
+    // Display filtered notes
+    displayFilteredNotes(filteredNotes);
+}
+
+function displayFilteredNotes(filteredNotes) {
+    // Sort notes so that pinned notes come first
+    filteredNotes.sort((a, b) => b.isPinned - a.isPinned);
+
+    // Create empty string for html code -> then loop through notes array and add html code for each note
+    let notesHtml = "";
+    for (let i = 0; i < filteredNotes.length; i++) {
+        let note = filteredNotes[i];
+        console.log(`here tag`, note.tags)
+        notesHtml += `<div id="note${note.id}" class="note" style="background-color: ${note.color};">
+            <div class="noteTitle">${note.title}</div>
+            <div class="noteContent">${note.content}</div>
+            <div class="noteDate">Created: ${note.dateOfCreation}</div>
+            <div class="noteDate">Modified: ${note.dateOfLastModification}</div>
+            <div class="noteTags">Tags: ${note.tags}</div>
+            <div class="noteButtons">
+                <button class="noteButton" onclick="editNote('${note.id}')">Edit</button>
+                <button class="noteButton" onclick="deleteNote('${note.id}')">Delete</button>
+            </div>
+        </div>`;
+    }
+    // Display notes in html div we created earlier
+    document.getElementById("DisplayNotesPanel").innerHTML = notesHtml;
+    console.log(`Displaying notes`, filteredNotes);
 }
