@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ork</title>
+</head>
+
+<body>
+    <div id="search">
+        <input type="text" id="searchInput" placeholder="Search">
+        <button id="searchBtn">Search</button>
+    </div>
+    <div id="CreateNotesPanel">
+        <input type="text" id="noteTitle" placeholder="Title">
+        <textarea id="noteContent" placeholder="Content"></textarea>
+        <input type="color" id="noteColor" value="#e3ed8c">
+        <input type="checkbox" id="notePin">
+        <input type="text" id="noteTags" placeholder="tag1,tag2,tag3,...">
+        <input type="datetime-local" id="noteReminderDate">
+        <button id="addNote">Add note</button>
+    </div>
+    <div id="DisplayNotesPanel">
+        <!--Here will be notes displayed with buttons to edit and remove note -->
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
