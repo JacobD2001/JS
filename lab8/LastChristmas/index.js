@@ -4,6 +4,7 @@ document.getElementById('getWeatherBtn').addEventListener('click', () => getWeat
 document.getElementById('savePlaceBtn').addEventListener('click', savePlace);
 //function to get weather based on city name
 function getWeather() {
+
     const apiKey = '7776b7cf6d82e39b67011a753fbc94a9';
     const city = document.getElementById('inputCity').value;
 
@@ -230,6 +231,13 @@ function removePlace(city) {
     }
     window.location.reload(); //refresh page
 }
+
+//function to autocomplete city name
+function initAutocomplete() {
+    const input = document.getElementById('inputCity');
+    const autocomplete = new google.maps.places.Autocomplete(input);
+}
+
 
 
 
