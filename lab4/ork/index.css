@@ -1,0 +1,125 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+
+#search {
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#searchInput {
+    padding: 8px;
+    margin-right: 10px;
+    width: 60%;
+}
+
+#searchBtn {
+    padding: 8px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#CreateNotesPanel {
+    background-color: #fff;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#noteTitle {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+#noteContent {
+    width: 100%;
+    height: 100px;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+#noteColor {
+    margin-bottom: 10px;
+}
+
+#notePin {
+    margin-bottom: 10px;
+}
+
+#noteTags {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+#addTaskCheckbox {
+    margin-bottom: 10px;
+}
+
+#newTaskText {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+#taskList {
+    margin-bottom: 10px;
+}
+
+#noteReminderDate {
+    margin-bottom: 10px;
+}
+
+#addNote {
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#DisplayNotesPanel {
+    background-color: #fff;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Style the individual notes */
+.note {
+    background-color: #ffd700;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+}
+
+.note h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.note p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.note button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+.note button:hover {
+    background-color: #c0392b;
+}

@@ -7,8 +7,35 @@
 document.getElementById("addNote").addEventListener("click", addNewNote);
 document.getElementById('searchBtn').addEventListener('click', searchNotes);
 
+document.getElementById('addTaskCheckbox').addEventListener('change', function() {
+    let taskList = document.getElementById('taskList');
+    if (this.checked) {
+        let input = document.createElement('input');
+        input.type = 'text';
+        input.id = 'newTaskText';
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = this.value;
+                let label = document.createElement('label');
+                label.textContent = this.value;
+                taskList.appendChild(checkbox);
+                taskList.appendChild(label);
+                taskList.appendChild(document.createElement('br'));
+                this.value = '';
+            }
+        });
+        taskList.appendChild(input);
+    } else {
+        while (taskList.firstChild) {
+            taskList.removeChild(taskList.firstChild);
+        }
+    }
+});
+
 //note constructor function
-function Note(id, title, content, color, isPinned, tags, dateOfCreation, dateOfLastModification, reminderDate) {
+function Note(id, title, content, color, isPinned, tags, dateOfCreation, dateOfLastModification, reminderDate, tasks) {
     this.id = id;
     this.title = title;
     this.content = content;
@@ -18,6 +45,7 @@ function Note(id, title, content, color, isPinned, tags, dateOfCreation, dateOfL
     this.dateOfCreation = dateOfCreation;
     this.dateOfLastModification = dateOfLastModification;
     this.reminderDate = reminderDate;
+    this.tasks = tasks; //an array of objects(each objects represents a list item and has text and isDone properties)
 }
 
 //Function for adding a new note
@@ -33,7 +61,12 @@ function addNewNote() {
     //let id = dateOfCreation; //how does getTime works -> https://www.w3schools.com/jsref/jsref_gettime.asp
     //dateOfCreation = document.getElementById("modified");
     let dateOfLastModification = new Date();
-    let note = new Note(id, title, content, color, isPinned, tags, reminderDate, dateOfCreation, dateOfLastModification);
+    let tasks = [];
+    let checkboxes = document.getElementById('taskList').querySelectorAll('input[type="checkbox"]');
+    for (let i = 0; i < checkboxes.length; i++) {
+        tasks.push({ text: checkboxes[i].value, isDone: checkboxes[i].checked });
+    }
+    let note = new Note(id, title, content, color, isPinned, tags, reminderDate, dateOfCreation, dateOfLastModification, tasks);
     console.log(`Created new note`, note);
     let notes = JSON.parse(localStorage.getItem("notes")); //get notes from local storage
     if (notes == null) { //if there are no notes in local storage
@@ -64,6 +97,13 @@ function displayNotes() {
     let notesHtml = "";
     for (let i = 0; i < notes.length; i++) {
         let note = notes[i];
+        let tasksHtml = '';
+        //loop through tasks array and add html code for each task
+        for (let j = 0; j < note.tasks.length; j++) {
+            let task = note.tasks[j]; //get current task from the task array
+            tasksHtml += `<input type="checkbox" id="task${j}" ${task.isDone ? 'checked' : ''} onchange="toggleTask('${note.id}', ${j})"> <!--If checkbox is checked than task is done when checkbox is changed call toggletask func-->
+                          <label for="task${j}" style="${task.isDone ? 'text-decoration: line-through; color: green;' : ''}">${task.text}</label><br>`;
+        }
         console.log(`here tag`, note.tags)
                   notesHtml += `<div id="note${note.id}" class="note" style="background-color: ${note.color};">
         <div class="noteTitle">${note.title}</div>
@@ -71,6 +111,7 @@ function displayNotes() {
         <div class="noteDate">Created: ${note.dateOfCreation}</div>
         <div class="noteDate">Modified: ${note.dateOfLastModification}</div>
         <div class="noteTags">Tags: ${note.tags}</div>
+        <div class="noteTasks">Tasks: ${tasksHtml}</div>
         <div class="noteReminderDate">Reminder date: ${note.reminderDate}</div>
         <div class="noteButtons">
             <button class="noteButton" onclick="editNote('${note.id}')">Edit</button>
@@ -81,6 +122,18 @@ function displayNotes() {
     //display notes in html div we created eariler
     document.getElementById("DisplayNotesPanel").innerHTML = notesHtml;
     console.log(`Displaying notes`, notes);
+}
+
+//function to toggle checked task event
+function toggleTask(noteId, taskId) {
+    let notes = JSON.parse(localStorage.getItem("notes"));
+    noteId = Number(noteId); //noteId passed from html is a string, so we need to convert it to number
+    let note = notes.find(note => note.id === noteId); //find note in notes array with id = noteId
+    let task = note.tasks[taskId]; // get task from note with taskId note obj has tasks property which is an array of objects
+    task.isDone = !task.isDone;
+    localStorage.setItem("notes", JSON.stringify(notes));
+    console.log(`Toggled task`, task);
+    displayNotes();   
 }
 
 //Function to display notes when the app is run
