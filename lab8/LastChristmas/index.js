@@ -50,57 +50,21 @@ function getWeather() {
 
     console.log(`got weather for ${city}`, data);
 
-    fetch(forecastApiUrl)
-    .then(response => response.json())
-    .then(forecastData => {
-        const times = forecastData.list.map(item => new Date(item.dt * 1000));
-        const temperatures = forecastData.list.map(item => item.main.temp);
-         console.log('forecast data', forecastData)
-        const ctx = document.getElementById('weatherChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: times,
-                datasets: [{
-                    label: 'Temperature',
-                    data: temperatures,
-                    fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
-                }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'hour',
-                            displayFormats: {
-                                hour: 'hA'
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Time'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Temperature (°C)'
-                        }
-                    }
-                }
-            }
-        });
+        fetch(forecastApiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const hourlyData = data.list.map(entry => {
+                    return {
+                        time: entry.dt_txt,
+                        temperature: entry.main.temp
+                    };
+                });
+                console.log("fetching forecast", hourlyData);
+                createChart(hourlyData);
+            })
+            .catch(error => console.error('Error fetching forecast:', error));
+    
     })
-    .catch(error => {
-        console.error('error fetching forecast data', error);
-    });
-})
-.catch(error => {
-    console.error('error fetching data', error);
-});
 }
 
 //function to save places in local storage
@@ -238,61 +202,42 @@ function initAutocomplete() {
     const autocomplete = new google.maps.places.Autocomplete(input);
 }
 
+//TO DO - IT IS correctly fetching the data but not creating the chart
+function createChart(hourlyData) {
+    const ctx = document.getElementById('weatherChart').getContext('2d');
+    console.log('creating chart', hourlyData);
+    const labels = hourlyData.map(entry => entry.time);
+    const temperatures = hourlyData.map(entry => entry.temperature);
+
+    const weatherChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Temperature (C)',
+                data: temperatures,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom'
+                },
+                y: {
+                    min: Math.min(...temperatures) - 5,
+                    max: Math.max(...temperatures) + 5
+                }
+            }
+        }
+    });
+}
 
 
 
 
-
-// LAST CHRISTMAS VERSION  - CHART
-
-// const forecastApiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
-
-// fetch(forecastApiUrl)
-//     .then(response => response.json())
-//     .then(data => {
-//         // Extract the times and temperatures from the data
-//         const times = data.list.map(item => new Date(item.dt * 1000));
-//         const temperatures = data.list.map(item => item.main.temp);
-
-//         // Create the chart
-//         const ctx = document.getElementById('weatherChart').getContext('2d');
-//         new Chart(ctx, {
-//             type: 'line',
-//             data: {
-//                 labels: times,
-//                 datasets: [{
-//                     label: 'Temperature',
-//                     data: temperatures,
-//                     fill: false,
-//                     borderColor: 'rgb(75, 192, 192)',
-//                     tension: 0.1
-//                 }]
-//             },
-//             options: {
-//                 scales: {
-//                     x: {
-//                         type: 'time',
-//                         time: {
-//                             unit: 'hour',
-//                             displayFormats: {
-//                                 hour: 'hA'
-//                             }
-//                         },
-//                         title: {
-//                             display: true,
-//                             text: 'Time'
-//                         }
-//                     },
-//                     y: {
-//                         title: {
-//                             display: true,
-//                             text: 'Temperature (°C)'
-//                         }
-//                     }
-//                 }
-//             }
-//         });
-//     })
-//     .catch(error => {
-//         console.error('error fetching data', error);
-//     });

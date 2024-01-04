@@ -7,7 +7,7 @@
  - lab 5: ✔️
  - lab 6: Do evrth
  - lab 7: ✔️
- - lab 8: last christmas - chart
+ - lab 8: last christmas - chart(only displaying chart to fix)
  - lab 9: 2,3 TODO
 
  ##Pytania:
