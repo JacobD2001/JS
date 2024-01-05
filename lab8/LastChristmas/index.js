@@ -144,6 +144,22 @@ function getWeatherForCity(city) {
         }
     }
 
+    fetch(forecastApiUrl)
+    .then(response => response.json())
+    .then(data => {
+        const hourlyData = data.list.map(entry => {
+            return {
+                time: entry.dt_txt,
+                temperature: entry.main.temp
+            };
+        });
+        console.log("fetching forecast", hourlyData);
+        createChart(hourlyData);
+    })
+    .catch(error => console.error('Error fetching forecast:', error));
+
+
+
     // If there's no data in the local storage or it's more than 5 minutes old, fetch the data from the API
     fetchWeather();
 
@@ -202,14 +218,21 @@ function initAutocomplete() {
     const autocomplete = new google.maps.places.Autocomplete(input);
 }
 
-//TO DO - IT IS correctly fetching the data but not creating the chart
+let weatherChart; 
+
 function createChart(hourlyData) {
     const ctx = document.getElementById('weatherChart').getContext('2d');
     console.log('creating chart', hourlyData);
     const labels = hourlyData.map(entry => entry.time);
     const temperatures = hourlyData.map(entry => entry.temperature);
 
-    const weatherChart = new Chart(ctx, {
+    // If a chart already exists, destroy it
+    if (weatherChart) {
+        weatherChart.destroy();
+    }
+
+    // Create a new chart and store it in the variable
+    weatherChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
@@ -223,12 +246,7 @@ function createChart(hourlyData) {
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
             scales: {
-                x: {
-                    type: 'linear',
-                    position: 'bottom'
-                },
                 y: {
                     min: Math.min(...temperatures) - 5,
                     max: Math.max(...temperatures) + 5
