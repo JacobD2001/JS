@@ -13,5 +13,6 @@
 ## Pytania:
  
  1. lab9/taskFailed - przyciąganie wgl nie działa
+ 2. lab 6 - nie działa za bardzo
  
  
