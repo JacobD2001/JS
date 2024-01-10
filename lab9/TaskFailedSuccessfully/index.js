@@ -43,8 +43,6 @@ class Ball {
         ctx.closePath();
     }
 
-    //TO DO: This function is completly not attracting the ball
-    // 1. get position of the mouse 2. get position of the ball 3. calculate the distance between the ball and the mouse 4. if the distance is less than 100 pixels, move the ball towards the mouse
     move() {
         this.x += this.speedX;
         this.y += this.speedY;
@@ -58,35 +56,12 @@ class Ball {
         if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
             this.speedY = -this.speedY;
         }
-
-         // Follow the cursor if it's within a certain distance
-         const dx = this.x - mouseX; //distance between ball and cursor x
-         const dy = this.y - mouseY; //distance between ball and cursor y
-         const distanceToCursor = Math.sqrt(dx * dx + dy * dy); //distance between ball and cursor(pitagoras)
- 
-         if (distanceToCursor < 100) { //100 is pixels
-             // Calculate the normalized direction vector
-             const directionX = dx / distanceToCursor; // vectorx = distance / length of the vector - https://www.wikihow.com/Find-Direction-of-a-Vector
-             const directionY = dy / distanceToCursor; 
- 
-             // Move the ball towards the cursor
-             this.x -= directionX * 2; // Adjust the ball's x-coordinate by subtracting a portion of the normalized direction vector. Multiplying by 2 adjusts the strength of the follow effect.
-             this.y -= directionY * 2; // Adjust the value for the follow strength
-         }
-        
-
-
-
     }
-    
-    
-    
 }
-
 
 const balls = [];
 
-for (let i = 0; i < 10; i++) { //ale lagi przy 500 XDDDD
+for (let i = 0; i < 3; i++) { //ale lagi przy 500 XDDDD
     const radius = 10;
     const x = Math.random() * (canvas.width - 2 * radius) + radius; // this line generates a random number between 0 and canvas.width - 2 * radius
     const y = Math.random() * (canvas.height - 2 * radius) + radius;
@@ -103,6 +78,7 @@ function draw() {
 
     //for each ball in the array
     balls.forEach(ball => {
+        console.log("from foreach ball", ball);
         ball.draw();
         ball.move();
     });
@@ -110,6 +86,7 @@ function draw() {
     // Check the distance between each pair of balls
     for (let i = 0; i < balls.length; i++) {
         for (let j = i + 1; j < balls.length; j++) {
+            //console.log(balls.length);
             const dx = balls[i].x - balls[j].x; //point x - point x = distance between x = length of the side of the triangle dx
             const dy = balls[i].y - balls[j].y; //point y - point y = distance between y = length of the side of the triangle dy
             const distance = Math.sqrt(dx * dx + dy * dy); // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sqrt
@@ -123,6 +100,10 @@ function draw() {
                 ctx.lineTo(balls[j].x, balls[j].y);
                 ctx.stroke();
             }
+
+           
+
+
         }
     }
    
@@ -130,14 +111,66 @@ function draw() {
     requestAnimationFrame(draw); // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
 }
 
+
+
 //Mouse attracts balls implementation
-let mouseX = 0;
-let mouseY = 0;
+// let mouseX;
+// let mouseY;
 
 //this function is called when the mouse moves and it updates the mouseX and mouseY variables which are the position of the mouse
-canvas.addEventListener('mousemove', (event) => {
-    mouseX = event.clientX - canvas.offsetLeft; 
-    mouseY = event.clientY - canvas.offsetTop;
-    console.log(mouseX, mouseY);
+// canvas.addEventListener('mousemove', (event) => {
+//     mouseX = event.clientX - canvas.offsetLeft; 
+//     mouseY = event.clientY - canvas.offsetTop;
+//    // console.log(mouseX, mouseY);
+// });
+
+// //function for calculating the distance between the center of the ball and mouse coursor
+// function distanceBetweenMouseAndBall(x1, y1, x2, y2) { //the parameters are: x1 and y1 - the position of the ball, x2 and y2 - the position of the mouse
+//     const dx = x1 - x2; //distance between ball and cursor x
+//     const dy = y1 - y2; //distance between ball and cursor y
+//     const distanceBetweenMouseAndBall = Math.sqrt(dx * dx + dy * dy); //distance between ball and cursor(pitagoras)
+//     console.log("the distance between the ball and the coursor is:", distanceBetweenMouseAndBall);
+//     return distanceBetweenMouseAndBall;
+// }
+
+canvas.addEventListener('click', (event) => {
+    // Get the click position
+    const rect = canvas.getBoundingClientRect(); // this code gets the position of the canvas on the screen
+    const x = event.clientX - rect.left; // this code gets the position of the mouse coursor on the canvas
+    const y = event.clientY - rect.top;
+    console.log(x, y, rect);
+
+    // Check if a ball was clicked
+    for (let i = 0; i < balls.length; i++) {
+        const ball = balls[i];
+        const distance = Math.sqrt((ball.x - x) ** 2 + (ball.y - y) ** 2);
+
+        // If the distance is less than the ball's radius, the ball was clicked
+        if (distance < ball.radius + 2000) {
+            // Remove the clicked ball
+            balls.splice(i, 1);
+            console.log("weszlo w if");
+            // Add two new balls
+            const speedX1 = (Math.random() - 0.5) * 4;
+            const speedY1 = (Math.random() - 0.5) * 4;
+            const ball1 = new Ball(x, y, ball.radius, speedX1, speedY1);
+            console.log("ball1", ball1);
+            balls.push(ball1);
+            console.log(balls);
+            ball1.draw();
+
+            const speedX2 = (Math.random() - 0.5) * 4;
+            const speedY2 = (Math.random() - 0.5) * 4;
+            const ball2 = new Ball(x, y, ball.radius, speedX2, speedY2);
+            balls.push(ball2);
+
+            // Stop checking other balls
+            break;
+        }
+        else{
+            console.log("nie weszlo w if");
+        }
+    }
 });
 
+//TO DO - usuwa piłki po kliknięciu, ale nie dodaje nowych
