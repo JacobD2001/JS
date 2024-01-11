@@ -4,28 +4,25 @@ const ctx = canvas.getContext('2d'); // how does getcontext work? - https://deve
 const startButton = document.getElementById('startButton');
 const resetButton = document.getElementById('resetButton');
 
+const balls = [];
+
+// Start the animation when the start button is clicked
 startButton.addEventListener('click', () => {
+    createBalls();
     draw();
     // Disable the start button
     startButton.disabled = true;
 });
+
+// Reset the animation when the reset button is clicked
 resetButton.addEventListener('click', () => {
     // Clear the balls array
     balls.length = 0;
 
-    // Repopulate the balls array
-    for (let i = 0; i < 10; i++) {
-        const radius = 10;
-        const x = Math.random() * (canvas.width - 2 * radius) + radius; //position of the ball ensured that the ball is within the canvas
-        const y = Math.random() * (canvas.height - 2 * radius) + radius; //2* radius = diameter substract so that the ball is at least a radius away from the edge of the canvas and than add radius so that the ball is not outside the canvas
-        const speedX = (Math.random() - 0.5) * 4; //first it gives number between 0 and 1, than it substracts 0.5 so that the number is between -0.5 and 0.5 and than it multiplies by 4 so that the number is between -2 and 2 
-        const speedY = (Math.random() - 0.5) * 4; //it ensures that the ball is moving in a random direction
-         //so it's right or down or left or up
-        const ball = new Ball(x, y, radius, speedX, speedY);
-        balls.push(ball);
-    }
+    createBalls();
 });
 
+// Ball class
 class Ball {
     constructor(x, y, radius, speedX, speedY) {
         this.x = x;
@@ -59,26 +56,30 @@ class Ball {
     }
 }
 
-const balls = [];
+// Create balls
+function createBalls() {
+    for (let i = 0; i < 2; i++) {
+        const radius = 10;
+        const x = Math.random() * (canvas.width - 2 * radius) + radius;
+        const y = Math.random() * (canvas.height - 2 * radius) + radius;
+        const speedX = (Math.random() - 0.5) * 4;
+        const speedY = (Math.random() - 0.5) * 4;
 
-for (let i = 0; i < 3; i++) { //ale lagi przy 500 XDDDD
-    const radius = 10;
-    const x = Math.random() * (canvas.width - 2 * radius) + radius; // this line generates a random number between 0 and canvas.width - 2 * radius
-    const y = Math.random() * (canvas.height - 2 * radius) + radius;
-    const speedX = (Math.random() - 0.5) * 4; 
-    const speedY = (Math.random() - 0.5) * 4;
-
-    const ball = new Ball(x, y, radius, speedX, speedY);
-    balls.push(ball);
+        const ball = new Ball(x, y, radius, speedX, speedY);
+        balls.push(ball);
+    }
 }
 
+// Draw the balls
 function draw() {
     //clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    console.log("balls length from draw:", balls.length);
+
     //for each ball in the array
     balls.forEach(ball => {
-        console.log("from foreach ball", ball);
+        //console.log("from foreach ball", ball);
         ball.draw();
         ball.move();
     });
@@ -100,13 +101,9 @@ function draw() {
                 ctx.lineTo(balls[j].x, balls[j].y);
                 ctx.stroke();
             }
-
-           
-
-
         }
     }
-   
+  
     //call the draw function again
     requestAnimationFrame(draw); // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
 }
@@ -138,31 +135,37 @@ canvas.addEventListener('click', (event) => {
     const rect = canvas.getBoundingClientRect(); // this code gets the position of the canvas on the screen
     const x = event.clientX - rect.left; // this code gets the position of the mouse coursor on the canvas
     const y = event.clientY - rect.top;
-    console.log(x, y, rect);
-
+    //console.log(x, y, rect);
+    console.log("balls length from add new ball as clicked 1:", balls.length);
     // Check if a ball was clicked
     for (let i = 0; i < balls.length; i++) {
         const ball = balls[i];
         const distance = Math.sqrt((ball.x - x) ** 2 + (ball.y - y) ** 2);
+        console.log("balls length from add new ball as clicked 2:", balls.length);
 
         // If the distance is less than the ball's radius, the ball was clicked
         if (distance < ball.radius + 2000) {
             // Remove the clicked ball
             balls.splice(i, 1);
+            console.log("i", i);
             console.log("weszlo w if");
             // Add two new balls
             const speedX1 = (Math.random() - 0.5) * 4;
             const speedY1 = (Math.random() - 0.5) * 4;
             const ball1 = new Ball(x, y, ball.radius, speedX1, speedY1);
-            console.log("ball1", ball1);
-            balls.push(ball1);
-            console.log(balls);
-            ball1.draw();
+            //console.log("ball1", ball1);
+            balls.push(ball1); //here balls are correctly added to the array but they aren't drew
+            //console.log(balls);
+            //ball1.draw();
+            console.log("balls length after adding first ball:", balls.length); // here balls.length is 3 and should be 4
 
             const speedX2 = (Math.random() - 0.5) * 4;
             const speedY2 = (Math.random() - 0.5) * 4;
             const ball2 = new Ball(x, y, ball.radius, speedX2, speedY2);
             balls.push(ball2);
+
+            console.log("balls length after adding second ball:", balls.length); // here balls.length is 4 and should be 5
+
 
             // Stop checking other balls
             break;
@@ -174,3 +177,4 @@ canvas.addEventListener('click', (event) => {
 });
 
 //TO DO - usuwa piłki po kliknięciu, ale nie dodaje nowych
+//TO DO - po kilku spawnia się kulki poza canvas CZEMU????
