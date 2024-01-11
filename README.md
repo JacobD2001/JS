@@ -5,14 +5,13 @@
  - lab 3: ✔️
  - lab 4: ✔️
  - lab 5: ✔️
- - lab 6: Do evrth
+ - lab 6: 2,3 TODO
  - lab 7: ✔️
  - lab 8: ✔️
  - lab 9: 2,3 TODO
 
 ## Pytania:
  
- 1. lab9/taskFailed - przyciąganie wgl nie działa
- 2. lab 6 - nie działa za bardzo
+ 1. lab9/taskFailed - przyciąganie wgl nie działa/rozmnazanie tez
  
  
