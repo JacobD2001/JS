@@ -4,7 +4,7 @@ const ctx = canvas.getContext('2d'); // how does getcontext work? - https://deve
 const startButton = document.getElementById('startButton');
 const resetButton = document.getElementById('resetButton');
 
-const balls = [];
+let balls = [];
 
 // Start the animation when the start button is clicked
 startButton.addEventListener('click', () => {
@@ -135,20 +135,22 @@ canvas.addEventListener('click', (event) => {
     const rect = canvas.getBoundingClientRect(); // this code gets the position of the canvas on the screen
     const x = event.clientX - rect.left; // this code gets the position of the mouse coursor on the canvas
     const y = event.clientY - rect.top;
-    //console.log(x, y, rect);
-    console.log("balls length from add new ball as clicked 1:", balls.length);
+    console.log(x, y, rect);
+    // console.log("balls length from add new ball as clicked 1:", balls.length);
     // Check if a ball was clicked
     for (let i = 0; i < balls.length; i++) {
         const ball = balls[i];
         const distance = Math.sqrt((ball.x - x) ** 2 + (ball.y - y) ** 2);
-        console.log("balls length from add new ball as clicked 2:", balls.length);
+        console.log("distance", distance);
+        console.log("ball radius + 2k", ball.radius);
+        // console.log("balls length from add new ball as clicked 2:", balls.length);
 
         // If the distance is less than the ball's radius, the ball was clicked
-        if (distance < ball.radius + 2000) {
+        if (distance < ball.radius+200 ) {
             // Remove the clicked ball
             balls.splice(i, 1);
-            console.log("i", i);
-            console.log("weszlo w if");
+            // console.log("i", i);
+            // console.log("weszlo w if");
             // Add two new balls
             const speedX1 = (Math.random() - 0.5) * 4;
             const speedY1 = (Math.random() - 0.5) * 4;
@@ -156,7 +158,7 @@ canvas.addEventListener('click', (event) => {
             //console.log("ball1", ball1);
             balls.push(ball1); //here balls are correctly added to the array but they aren't drew
             //console.log(balls);
-            //ball1.draw();
+            ball1.draw();
             console.log("balls length after adding first ball:", balls.length); // here balls.length is 3 and should be 4
 
             const speedX2 = (Math.random() - 0.5) * 4;
@@ -171,7 +173,7 @@ canvas.addEventListener('click', (event) => {
             break;
         }
         else{
-            console.log("nie weszlo w if");
+            // console.log("nie weszlo w if");
         }
     }
 });
