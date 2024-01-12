@@ -4,6 +4,9 @@ const ctx = canvas.getContext('2d'); // how does getcontext work? - https://deve
 const startButton = document.getElementById('startButton');
 const resetButton = document.getElementById('resetButton');
 
+canvas.width = 1000;
+canvas.height = 500;
+
 let balls = [];
 
 // Start the animation when the start button is clicked
@@ -61,7 +64,7 @@ function createBalls() {
         const x = Math.random() * (canvas.width - 2 * radius) + radius;
         const y = Math.random() * (canvas.height - 2 * radius) + radius;
         const speedX = (Math.random() - 0.5) * 4;
-       const speedY = (Math.random() - 0.5) * 4;
+        const speedY = (Math.random() - 0.5) * 4;
     //    const speedX = 0.050;
     //    const speedY = 0.050;
 
@@ -81,8 +84,8 @@ function draw() {
         ball.draw();
         ball.move();
         //ball.distanceBetweenMouseAndBall = distanceBetweenMouseAndBall(ball.x, ball.y, mouseX, mouseY);
-        distanceBetweenMouseAndBall(ball.x, ball.y, mouseX, mouseY);
-        pushBallAwayFromCoursor(ball, distanceBetweenMouseAndBall(ball.x, ball.y, mouseX, mouseY));
+        //distanceBetweenMouseAndBall(ball.x, ball.y, mouseX, mouseY);
+        //pushBallAwayFromCoursor(ball, distanceBetweenMouseAndBall(ball.x, ball.y, mouseX, mouseY));
     });
 
     // Check the distance between each pair of balls
@@ -111,72 +114,68 @@ function draw() {
 
 
 
-//Mouse attracts balls implementation
-let mouseX = 0;
-let mouseY = 0;
+// //Mouse attracts balls implementation
+// let mouseX = 0;
+// let mouseY = 0;
 
-//this function is called when the mouse moves and it updates the mouseX and mouseY variables which are the position of the mouse
-canvas.addEventListener('mousemove', (event) => {
-    mouseX = event.clientX - canvas.offsetLeft; 
-    mouseY = event.clientY - canvas.offsetTop;
-    //console.log(mouseX, mouseY);
-});
-
-//function for calculating the distance between the center of the ball and mouse coursor
-function distanceBetweenMouseAndBall(x1, y1, x2, y2) { //the parameters are: x1 and y1 - the position of the ball, x2 and y2 - the position of the mouse
-    const dx = x1 - x2; //distance between ball and cursor x
-    const dy = y1 - y2; //distance between ball and cursor y
-    const distanceBetweenMouseAndBall = Math.sqrt(dx * dx + dy * dy); //distance between ball and cursor(pitagoras)
-    console.log("the distance between the ball and the coursor is:", distanceBetweenMouseAndBall);
-    return distanceBetweenMouseAndBall;
-}
-
-//function that will push the ball away from the coursor
-function pushBallAwayFromCoursor(ball, distanceBetweenMouseAndBall) {
-    if (distanceBetweenMouseAndBall < 400) {
-        ball.x += 0.1;  
-        ball.y += 0.1;
-        console.log("pushBallAwayFromCoursor", ball.x, ball.y);
-    }
-}
-
-// canvas.addEventListener('click', (event) => {
-//     // Get the click position
-//     const rect = canvas.getBoundingClientRect();
-//     const x = event.clientX - rect.left;
-//     const y = event.clientY - rect.top;
-
-//     // Check if a ball was clicked
-//     for (let i = 0; i < balls.length; i++) {
-//         const ball = balls[i];
-//         const distance = Math.sqrt((ball.x - x) ** 2 + (ball.y - y) ** 2);
-
-//         // If the distance is less than the ball's radius, the ball was clicked
-//         if (distance < ball.radius + 2000) {
-//             // Remove the clicked ball
-//             balls.splice(i, 1);
-//             //console.log();
-
-//             // Add two new balls
-//             const speedX1 = (Math.random() - 0.5) * 4;
-//             const speedY1 = (Math.random() - 0.5) * 4;
-//             const ball1 = new Ball(x, y, ball.radius, speedX1, speedY1);
-//             balls.push(ball1);
-
-//             const speedX2 = (Math.random() - 0.5) * 4;
-//             const speedY2 = (Math.random() - 0.5) * 4;
-//             const ball2 = new Ball(x, y, ball.radius, speedX2, speedY2);
-//             balls.push(ball2);
-
-//             // Draw all balls after adding new ones
-//             draw();
-
-//             // Stop checking other balls
-//             break;
-//         }
-//     }
+// //this function is called when the mouse moves and it updates the mouseX and mouseY variables which are the position of the mouse
+// canvas.addEventListener('mousemove', (event) => {
+//     mouseX = event.clientX - canvas.offsetLeft; 
+//     mouseY = event.clientY - canvas.offsetTop;
+//     //console.log(mouseX, mouseY);
 // });
 
+// //function for calculating the distance between the center of the ball and mouse coursor
+// function distanceBetweenMouseAndBall(x1, y1, x2, y2) { //the parameters are: x1 and y1 - the position of the ball, x2 and y2 - the position of the mouse
+//     const dx = x1 - x2; //distance between ball and cursor x
+//     const dy = y1 - y2; //distance between ball and cursor y
+//     const distanceBetweenMouseAndBall = Math.sqrt(dx * dx + dy * dy); //distance between ball and cursor(pitagoras)
+//     console.log("the distance between the ball and the coursor is:", distanceBetweenMouseAndBall);
+//     return distanceBetweenMouseAndBall;
+// }
 
-//TO DO - usuwa piłki po kliknięciu, ale nie dodaje nowych
-//TO DO - po kilku spawnia się kulki poza canvas CZEMU????
+// //function that will push the ball away from the coursor
+// function pushBallAwayFromCoursor(ball, distanceBetweenMouseAndBall) {
+//     if (distanceBetweenMouseAndBall < 400) {
+//         ball.x += 0.1;  
+//         ball.y += 0.1;
+//         console.log("pushBallAwayFromCoursor", ball.x, ball.y);
+//     }
+// }
+
+canvas.addEventListener('click', (event) => {
+    // Get the click position
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    // Check if a ball was clicked
+    for (let i = 0; i < balls.length; i++) {
+        const ball = balls[i];
+        const distance = Math.sqrt((ball.x - x) ** 2 + (ball.y - y) ** 2);
+
+        // If the distance is less than the ball's radius, the ball was clicked
+        if (distance < ball.radius + 2000) {
+            // Remove the clicked ball
+            balls.splice(i, 1);
+            //console.log();
+
+            // Add two new balls
+            const speedX1 = (Math.random() - 0.5) * 4;
+            const speedY1 = (Math.random() - 0.5) * 4;
+            const ball1 = new Ball(x, y, ball.radius, speedX1, speedY1);
+            balls.push(ball1);
+
+            const speedX2 = (Math.random() - 0.5) * 4;
+            const speedY2 = (Math.random() - 0.5) * 4;
+            const ball2 = new Ball(x, y, ball.radius, speedX2, speedY2);
+            balls.push(ball2);
+
+            // Draw all balls after adding new ones
+            draw();
+
+            // Stop checking other balls
+            break;
+        }
+    }
+});
