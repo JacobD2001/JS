@@ -4,6 +4,8 @@ const ctx = canvas.getContext('2d'); // how does getcontext work? - https://deve
 const startButton = document.getElementById('startButton');
 const resetButton = document.getElementById('resetButton');
 
+const ballRadius = 10;
+
 canvas.width = 1000;
 canvas.height = 500;
 
@@ -42,25 +44,19 @@ class Ball {
     }
 
     move() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        
-        // if(this.x + this.dx > canvas.width - this.radius || this.x + this.dx < this.radius){
-        //     this.dx = -this.dx;
-        // }
-        // if(this.y + this.dy > canvas.height - this.radius || this.y + this.dy < this.radius){
-        //     this.dy = -this.dy;
-        // }
-
+        const newX = this.x + this.speedX;
+        const newY = this.y + this.speedY;
         // Bounce off the walls(left and right)
-        if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+        if (newX + this.radius > canvas.width || newX - this.radius < 0) {
             this.speedX = -this.speedX;
         }
-
+ 
         // Bounce off the walls(top and bottom)
-        if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+        if (newY + this.radius > canvas.height || newY - this.radius < 0) {
             this.speedY = -this.speedY;
         }
+        this.x += this.speedX
+        this.y += this.speedY
     }
 }
 
@@ -186,5 +182,10 @@ function pushBallAwayFromCoursor(ball, distanceBetweenMouseAndBall) {
         ball.x += 2;  
         ball.y += 2;
         console.log("pushBallAwayFromCoursor", ball.x, ball.y);
+
+         // keep the ball within canvas bounds
+        ball.x = Math.max(ballRadius, Math.min(canvas.width - ballRadius, ball.x));
+        ball.y = Math.max(ballRadius, Math.min(canvas.height - ballRadius, ball.y));
+
     }
 }
