@@ -5,7 +5,7 @@
  - lab 3: ✔️
  - lab 4: ✔️
  - lab 5: ✔️
- - lab 6: 2,3 TODO
+ - lab 6: 3 TODO
  - lab 7: ✔️
  - lab 8: ✔️
  - lab 9: 2,3 TODO
@@ -13,5 +13,6 @@
 ## Pytania:
  
  1. lab9/taskFailed - przyciąganie wgl nie działa/rozmnazanie tez
+ 2. TO DO: Poprawić timery w lab 6
  
  
