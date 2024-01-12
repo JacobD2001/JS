@@ -44,6 +44,13 @@ class Ball {
     move() {
         this.x += this.speedX;
         this.y += this.speedY;
+        
+        // if(this.x + this.dx > canvas.width - this.radius || this.x + this.dx < this.radius){
+        //     this.dx = -this.dx;
+        // }
+        // if(this.y + this.dy > canvas.height - this.radius || this.y + this.dy < this.radius){
+        //     this.dy = -this.dy;
+        // }
 
         // Bounce off the walls(left and right)
         if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
@@ -85,7 +92,7 @@ function draw() {
         ball.move();
         //ball.distanceBetweenMouseAndBall = distanceBetweenMouseAndBall(ball.x, ball.y, mouseX, mouseY);
         //distanceBetweenMouseAndBall(ball.x, ball.y, mouseX, mouseY);
-        //pushBallAwayFromCoursor(ball, distanceBetweenMouseAndBall(ball.x, ball.y, mouseX, mouseY));
+        pushBallAwayFromCoursor(ball, distanceBetweenMouseAndBall(ball.x, ball.y, mouseX, mouseY));
     });
 
     // Check the distance between each pair of balls
@@ -112,37 +119,7 @@ function draw() {
     requestAnimationFrame(draw); // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
 }
 
-
-
-// //Mouse attracts balls implementation
-// let mouseX = 0;
-// let mouseY = 0;
-
-// //this function is called when the mouse moves and it updates the mouseX and mouseY variables which are the position of the mouse
-// canvas.addEventListener('mousemove', (event) => {
-//     mouseX = event.clientX - canvas.offsetLeft; 
-//     mouseY = event.clientY - canvas.offsetTop;
-//     //console.log(mouseX, mouseY);
-// });
-
-// //function for calculating the distance between the center of the ball and mouse coursor
-// function distanceBetweenMouseAndBall(x1, y1, x2, y2) { //the parameters are: x1 and y1 - the position of the ball, x2 and y2 - the position of the mouse
-//     const dx = x1 - x2; //distance between ball and cursor x
-//     const dy = y1 - y2; //distance between ball and cursor y
-//     const distanceBetweenMouseAndBall = Math.sqrt(dx * dx + dy * dy); //distance between ball and cursor(pitagoras)
-//     console.log("the distance between the ball and the coursor is:", distanceBetweenMouseAndBall);
-//     return distanceBetweenMouseAndBall;
-// }
-
-// //function that will push the ball away from the coursor
-// function pushBallAwayFromCoursor(ball, distanceBetweenMouseAndBall) {
-//     if (distanceBetweenMouseAndBall < 400) {
-//         ball.x += 0.1;  
-//         ball.y += 0.1;
-//         console.log("pushBallAwayFromCoursor", ball.x, ball.y);
-//     }
-// }
-
+// multiplaying the balls on click
 canvas.addEventListener('click', (event) => {
     // Get the click position
     const rect = canvas.getBoundingClientRect();
@@ -179,3 +156,35 @@ canvas.addEventListener('click', (event) => {
         }
     }
 });
+
+
+//*****************************************************BALL/COURSOR ATTRACTION*********************************//
+
+//Mouse attracts balls implementation
+let mouseX = 0;
+let mouseY = 0;
+
+//this function is called when the mouse moves and it updates the mouseX and mouseY variables which are the position of the mouse
+canvas.addEventListener('mousemove', (event) => {
+    mouseX = event.clientX - canvas.offsetLeft; 
+    mouseY = event.clientY - canvas.offsetTop;
+    //console.log(mouseX, mouseY);
+});
+
+//function for calculating the distance between the center of the ball and mouse coursor
+function distanceBetweenMouseAndBall(x1, y1, x2, y2) { //the parameters are: x1 and y1 - the position of the ball, x2 and y2 - the position of the mouse
+    const dx = x1 - x2; //distance between ball and cursor x
+    const dy = y1 - y2; //distance between ball and cursor y
+    const distanceBetweenMouseAndBall = Math.sqrt(dx * dx + dy * dy); //distance between ball and cursor(pitagoras)
+    console.log("the distance between the ball and the coursor is:", distanceBetweenMouseAndBall);
+    return distanceBetweenMouseAndBall;
+}
+
+//function that will push the ball away from the coursor
+function pushBallAwayFromCoursor(ball, distanceBetweenMouseAndBall) {
+    if (distanceBetweenMouseAndBall < 200) {
+        ball.x += 2;  
+        ball.y += 2;
+        console.log("pushBallAwayFromCoursor", ball.x, ball.y);
+    }
+}
