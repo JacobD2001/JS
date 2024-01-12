@@ -19,6 +19,7 @@ const numberOfHoles = 3;
 const holes = [];
 const holeX = canvas.width - 50; //hole x wsp is 50px from right side of canvas
 const holeY = canvas.height - 50; //hole y wsp is 50px from bottom of canvas
+const maxDistance = 350;
 
 //device orientation properties
 let beta = 0;
@@ -53,7 +54,7 @@ function updateBallPosition(){
     drawHoles();
 
     // check if the ball is in the hole
-    if(isBallInHole()){
+    if(ballInHole()){
         stopTimer();
         alert("You win!");
         cancelAnimationFrame(updateBallPosition);
@@ -133,18 +134,17 @@ function initializeHoles() {
     }
 }
 
-// Function to check if the ball is in any of the holes
-function isBallInHole() {
-    for (const hole of holes) {
-        if (
-            ballX > hole.x - holeRadius && // this code works that way: ball x wsp is greater than hole x wsp - hole radius and ball x wsp is less than hole x wsp + hole radius
-            ballX < hole.x + holeRadius &&
-            ballY > hole.y - holeRadius &&
-            ballY < hole.y + holeRadius
-        ) {
+//function to check if ball is in the hole
+function ballInHole(){
+    for(let i = 0; i < holes.length; i++){
+        const dx = ballX - holes[i].x;
+        const dy = ballY - holes[i].y;
+        const squaredDistance = dx * dx + dy * dy;
+        if(squaredDistance < maxDistance){
             return true;
         }
     }
+  
     return false;
 }
 
