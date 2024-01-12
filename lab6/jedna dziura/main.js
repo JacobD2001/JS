@@ -42,7 +42,7 @@ function updateBallPosition(){
     // keep the ball within canvas bounds
     ballX = Math.max(ballRadius, Math.min(canvas.width - ballRadius, ballX));
     ballY = Math.max(ballRadius, Math.min(canvas.height - ballRadius, ballY));
-    
+
     if(ballInHole())
     {
         stopTimer();

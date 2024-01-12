@@ -14,5 +14,6 @@
  
  1. lab9/taskFailed - przyciąganie wgl nie działa/rozmnazanie tez
  2. TO DO: Poprawić timery w lab 6
+ 3. Na labach: Dokończyć lab9 --> lab 6 czarna dziura --> timery
  
  
