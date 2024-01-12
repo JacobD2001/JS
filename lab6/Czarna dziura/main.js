@@ -219,7 +219,7 @@ function teleportBall() {
 // function to update the hole positions(holes should be moving)
 function updateHoles(){
     for(let i = 0; i < holes.length; i++){
-        holes[i].x += Math.random() * 4 - 2;
+        holes[i].x += Math.random() * 4 - 2; //add boundries -2,2 so that holes dont move madly across the board
         holes[i].y += Math.random() * 4 - 2;
 
         // Ensure the holes stay within canvas bounds
