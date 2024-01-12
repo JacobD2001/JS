@@ -15,6 +15,7 @@ let ballY = canvas.height / 2; //ball y wsp is in the middle of canvas CENTER
 const holeRadius = 40;
 const holeX = canvas.width - 50; //hole x wsp is 50px from right side of canvas
 const holeY = canvas.height - 50; //hole y wsp is 50px from bottom of canvas
+const maxDistance = 400;
 
 //device orientation properties
 let beta = 0;
@@ -41,9 +42,9 @@ function updateBallPosition(){
     // keep the ball within canvas bounds
     ballX = Math.max(ballRadius, Math.min(canvas.width - ballRadius, ballX));
     ballY = Math.max(ballRadius, Math.min(canvas.height - ballRadius, ballY));
-
-    // check if the ball is in the hole
-    if(ballX > holeX - holeRadius && ballX < holeX + holeRadius && ballY > holeY - holeRadius && ballY < holeY + holeRadius){
+    
+    if(ballInHole())
+    {
         stopTimer();
         alert("You win!");
         cancelAnimationFrame(updateBallPosition);
@@ -112,6 +113,17 @@ function getTime() {
         const formattedTime = (record / 1000).toFixed(2);
         timeRecordsElement.innerHTML += `${index + 1}. ${formattedTime} <br>`;
     });
+}
+
+//function to check if ball is in the hole
+function ballInHole(){
+    const dx = ballX - holeX;
+    const dy = ballY - holeY;
+    const squaredDistance = dx * dx + dy * dy;
+    if(squaredDistance < maxDistance){
+        return true;
+    }
+    return false;
 }
 
 

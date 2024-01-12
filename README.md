@@ -13,6 +13,6 @@
 ## Pytania:
  
  1. lab9/taskFailed - przyciąganie wgl nie działa/rozmnazanie tez
- 2. TO DO: Poprawić timery w lab 6
+ 2. TO DO: Poprawić timery w lab 6 && Fix isballinhole narazie sie stykaja
  
  
