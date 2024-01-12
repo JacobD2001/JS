@@ -21,6 +21,10 @@ const holeX = canvas.width - 50; //hole x wsp is 50px from right side of canvas
 const holeY = canvas.height - 50; //hole y wsp is 50px from bottom of canvas
 const maxDistance = 350;
 
+//tunnel properties
+const numberOfTunnels = 2;
+const tunnels = [];
+
 //device orientation properties
 let beta = 0;
 let gamma = 0;
@@ -53,6 +57,9 @@ function updateBallPosition(){
     //draw holes
     drawHoles();
 
+    //draw tunnels
+    drawTunnels();
+
     // check if the ball is in the hole
     if(ballInHole()){
         stopTimer();
@@ -61,6 +68,15 @@ function updateBallPosition(){
         document.location.reload();
         return;
     }
+
+    // check if the ball is in the tunnel
+    if(ballInTunnel()){
+        console.log("You are in the tunnel!");
+        //cancelAnimationFrame(updateBallPosition);
+        teleportBall();
+        //return;
+    }
+
 
     // Draw the ball
     ctx.beginPath();
@@ -124,7 +140,7 @@ function resetTime(){
 }
 
 //function to initialize holes and place them randomly on canvas
-function initializeHoles() {
+function initializeHolesTunnels() {
     for (let i = 0; i < numberOfHoles; i++) {
         // Generate random coordinates for each hole
         const holeX = Math.floor(Math.random() * (canvas.width - 2 * holeRadius) + holeRadius);
@@ -132,6 +148,15 @@ function initializeHoles() {
         // Push the hole position into the array
         holes.push({ x: holeX, y: holeY });
     }
+
+    for (let i = 0; i < numberOfTunnels; i++) {
+        // Generate random coordinates for each tunnel
+        const tunnelX = Math.floor(Math.random() * (canvas.width - 2 * holeRadius) + holeRadius);
+        const tunnelY = Math.floor(Math.random() * (canvas.height - 2 * holeRadius) + holeRadius);
+        // Push the tunnel position into the array
+        tunnels.push({ x: tunnelX, y: tunnelY });
+    }
+    console.log("tunnels", tunnels);
 }
 
 //function to check if ball is in the hole
@@ -158,8 +183,52 @@ function drawHoles() {
     }
 }
 
+//function to draw tunnels on the canvas
+function drawTunnels() {
+    for (let tunnel of tunnels) {
+    ctx.beginPath();
+    ctx.arc(tunnel.x, tunnel.y, holeRadius, 0, 2 * Math.PI);
+    ctx.fillStyle = 'blue';
+    ctx.fill();
+    }
+}
+
+//function to check if ball is in the tunnel
+function ballInTunnel(){
+    for(let i = 0; i < tunnels.length; i++){
+        const dx = ballX - tunnels[i].x;
+        const dy = ballY - tunnels[i].y;
+        const squaredDistance = dx * dx + dy * dy;
+        if(squaredDistance < maxDistance){
+            return true;
+        }
+    }
+  
+    return false;
+}
+
+// Function to teleport the ball to a random place on the gameboard
+function teleportBall() {
+    // Set the ball position to random coordinates within the canvas bounds
+    ballX = Math.floor(Math.random() * (canvas.width - 2 * ballRadius) + ballRadius);
+    ballY = Math.floor(Math.random() * (canvas.height - 2 * ballRadius) + ballRadius);
+}
+
 // start the game
-initializeHoles();
+initializeHolesTunnels();
 requestAnimationFrame(updateBallPosition);
 getTime();
 
+
+
+
+// Comments: 
+// //function to teleport the ball to random tunnel
+// function teleportBall(){
+//     // Pick a random tunnel for teleportation
+//     const randomTunnel = tunnels[Math.floor(Math.random() * numberOfTunnels)];
+//      console.log("random tunnel", randomTunnel);
+//     // Set the ball position to the chosen tunnel
+//     ballX = randomTunnel.x;
+//     ballY = randomTunnel.y;
+// }
