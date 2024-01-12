@@ -32,8 +32,8 @@ const clearTimeRecordsBtn = document.getElementById('clearTimeRecordsBtn').addEv
 function updateBallPosition(){
 
     // calculate new ball position based on device orientation
-    const deltaX = beta / 10;
-    const deltaY = gamma / 10;
+    const deltaX = gamma / 10;
+    const deltaY = beta / 10;
 
     // update ball position
     ballX += deltaX;
