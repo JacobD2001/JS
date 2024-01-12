@@ -5,7 +5,7 @@
  - lab 3: ✔️
  - lab 4: ✔️
  - lab 5: ✔️
- - lab 6: 3 TODO
+ - lab 6: timery
  - lab 7: ✔️
  - lab 8: ✔️
  - lab 9: 2,3 TODO

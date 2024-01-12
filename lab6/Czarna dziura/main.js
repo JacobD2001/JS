@@ -54,6 +54,8 @@ function updateBallPosition(){
   // Clear the canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    //update holes position
+    updateHoles();
     //draw holes
     drawHoles();
 
@@ -214,10 +216,24 @@ function teleportBall() {
     ballY = Math.floor(Math.random() * (canvas.height - 2 * ballRadius) + ballRadius);
 }
 
+// function to update the hole positions(holes should be moving)
+function updateHoles(){
+    for(let i = 0; i < holes.length; i++){
+        holes[i].x += Math.random() * 4 - 2;
+        holes[i].y += Math.random() * 4 - 2;
+
+        // Ensure the holes stay within canvas bounds
+        holes[i].x = Math.max(holeRadius, Math.min(canvas.width - holeRadius, holes[i].x));
+        holes[i].y = Math.max(holeRadius, Math.min(canvas.height - holeRadius, holes[i].y));
+    }
+}
+
 // start the game
 initializeHolesTunnels();
 requestAnimationFrame(updateBallPosition);
 getTime();
+
+
 
 
 
