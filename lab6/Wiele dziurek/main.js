@@ -1,3 +1,5 @@
+//TODO: Timer dla 3 dziur po kolei
+
 //get HTML elements
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -160,3 +162,4 @@ function drawHoles() {
 initializeHoles();
 requestAnimationFrame(updateBallPosition);
 getTime();
+
