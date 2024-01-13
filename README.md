@@ -5,15 +5,15 @@
  - lab 3: ✔️
  - lab 4: ✔️
  - lab 5: ✔️
- - lab 6: timery
+ - lab 6: timery 1,2
  - lab 7: ✔️
  - lab 8: ✔️
- - lab 9: 3 - TODO
+ - lab 9: ✔️
 
 ## Pytania:
 
- 1. TO DO: Poprawić timery w lab 6
- 2. TO DO: lab 9 wersja 3
+ 1. TO DO: Poprawić timery w lab 6(1,2)
+
 
  
  
