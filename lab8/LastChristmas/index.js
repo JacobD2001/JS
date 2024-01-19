@@ -112,6 +112,8 @@ window.onload = () => {
 function getWeatherForCity(city) {
     const apiKey = '7776b7cf6d82e39b67011a753fbc94a9';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    const forecastApiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+
 
     const fetchWeather = () => {
         console.log('getting weather for: ', city)
